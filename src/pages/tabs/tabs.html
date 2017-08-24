@@ -1,0 +1,6 @@
+<ion-tabs [selectedIndex]="mySelectedIndex" name="dronexer-tab-nav">
+  <ion-tab [root]="tab1Root" tabTitle="Discover" tabIcon="photos"></ion-tab>
+  <ion-tab [root]="tab2Root" [enabled]="isLoggedIn" tabTitle="Feed" tabIcon="images"></ion-tab>
+  <ion-tab [root]="tab3Root" [enabled]="isLoggedIn" tabTitle="Upload" tabIcon="cloud-upload"></ion-tab>
+  <ion-tab [root]="tab4Root" [enabled]="isLoggedIn" [rootParams]="{isProfileMine: true}" tabTitle="Profile" tabIcon="person"></ion-tab>
+</ion-tabs>

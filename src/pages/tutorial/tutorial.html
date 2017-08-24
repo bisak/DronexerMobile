@@ -1,0 +1,38 @@
+<ion-header no-border>
+  <ion-navbar>
+    <ion-buttons end *ngIf="showSkip">
+      <button ion-button (click)="startApp()" color="primary">Skip</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-bounce>
+  <ion-slides #slides (ionSlideWillChange)="onSlideChangeStart($event)" pager>
+
+    <ion-slide>
+      <img src="assets/img/appicon.svg" class="slide-image"/>
+      <h2 class="slide-title">
+        Welcome to <b>Dronexer</b>
+      </h2>
+      <p>
+        The <b>ionic conference app</b> is a practical preview of the ionic framework in action, and a demonstration of proper code use.
+      </p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/img/slide-2.svg" class="slide-image"/>
+      <h2 class="slide-title">What is Dronexer?</h2>
+      <p><b>Dronexer</b> is a cloud platform for managing and scaling Ionic apps with integrated services like push notifications, native builds, user auth, and live updating.</p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/img/slide-3.svg" class="slide-image"/>
+      <h2 class="slide-title">Ready to Play?</h2>
+      <button ion-button icon-end large clear (click)="startApp()">
+        Continue
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-slide>
+
+  </ion-slides>
+</ion-content>

@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Register</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="logo">
+    <img src="assets/img/appicon.svg" alt="Dronexer logo">
+  </div>
+
+  <form (submit)="onRegisterSubmit(registerForm)" #registerForm="ngForm">
+    <ion-list no-lines>
+
+      <ion-item>
+        <ion-label floating>First name</ion-label>
+        <ion-input [(ngModel)]="registerData.firstName" name="username" type="text" spellcheck="false" required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Last name</ion-label>
+        <ion-input [(ngModel)]="registerData.lastName" name="username" type="text" spellcheck="false" required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Username</ion-label>
+        <ion-input [(ngModel)]="registerData.username" name="username" type="text" spellcheck="false" autocapitalize="off" required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>E-mail</ion-label>
+        <ion-input [(ngModel)]="registerData.email" name="username" type="email" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input [(ngModel)]="registerData.password" minlength="6" maxlength="50" name="password" type="password" required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Confirm password</ion-label>
+        <ion-input [(ngModel)]="registerData.passwordConfirm" minlength="6" maxlength="50" name="password" type="password" required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Select your drones</ion-label>
+        <ion-select [(ngModel)]="registerData.dronesSelected" name="dronesSelector" multiple="true">
+          <ion-option *ngFor="let drone of dronesArray; let i = index" [value]="i">{{drone}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-row>
+          <ion-col>
+            <button block ion-button>
+              <input type="file" accept="image/png,image/jpeg" (change)="onProfilePictureSelected($event)" id="file-input" #fileInp>
+              Select profile picture
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+
+      <ion-item *ngIf="profilePictureEncoded">
+        <ion-row justify-content-center>
+          <ion-avatar>
+            <img class="avatar-preview" [src]="profilePictureEncoded">
+          </ion-avatar>
+        </ion-row>
+      </ion-item>
+
+      <ion-item>
+        <ion-row margin (click)="openTOU()" justify-content-center>
+          <p>By signing up you agree to our <strong>terms of use</strong></p>
+        </ion-row>
+      </ion-item>
+
+      <ion-item>
+        <ion-row>
+          <ion-col>
+            <button ion-button color="secondary" type="submit" block>Signup</button>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+
+  </form>
+
+</ion-content>

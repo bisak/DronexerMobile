@@ -1,0 +1,28 @@
+profile-grid {
+  .profile-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .profile-img-container {
+    height: 33vw;
+  }
+
+  .profile-img-container:nth-child(3n), .profile-img-container:nth-child(3n-2), .profile-img-container:nth-child(3n-1) {
+    margin-bottom: 2px !important;
+  }
+
+  .profile-img-container:nth-child(3n-2) {
+    padding-right: 1px !important;
+  }
+
+  .profile-img-container:nth-child(3n-1) {
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+  }
+
+  .profile-img-container:nth-child(3n) {
+    padding-left: 1px !important;
+  }
+}

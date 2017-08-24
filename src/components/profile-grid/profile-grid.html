@@ -1,0 +1,5 @@
+<ion-row>
+  <ion-col class="profile-img-container" no-padding col-4 *ngFor="let post of posts">
+    <img (tap)="openImageViewer(imgElement, post)" #imgElement class="profile-img" [src]="postProvider.getPictureUrlForThumbnail(post)">
+  </ion-col>
+</ion-row>

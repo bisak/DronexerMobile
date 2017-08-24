@@ -1,0 +1,60 @@
+<ion-header *ngIf="isProfileMine">
+  <ion-toolbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Profile</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="settings"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header *ngIf="!isProfileMine">
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title *ngIf="profileData">{{profileData.username}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding-vertical>
+  <div padding-top text-center *ngIf="profileData">
+    <img class="avatar" [src]="profileData.profilePicUrl" alt="avatar">
+    <h2>{{profileData.username}}</h2>
+    <h3>{{profileData.firstName}} {{profileData.lastName}}</h3>
+  </div>
+
+  <ion-refresher (ionRefresh)="getInitialWallPosts($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-row>
+    <ion-col text-center>
+      <button (tap)="selectGridViewMode()" [color]="profileViewMode === 'grid' ? 'secondary' : '' " ion-button block icon-only clear>
+        <ion-icon name="grid"></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col text-center>
+      <button (tap)="selectListViewMode()" [color]="profileViewMode === 'list' ? 'secondary' : '' " ion-button block icon-only clear>
+        <ion-icon name="list"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
+
+  <div *ngIf="profileViewMode === 'grid'">
+    <profile-grid [posts]="wallPosts"></profile-grid>
+  </div>
+
+  <div *ngIf="profileViewMode === 'list'">
+    <post *ngFor="let post of wallPosts" [post]="post"></post>
+  </div>
+
+  <ion-infinite-scroll [enabled]="isInfiniteScrollEnabled" (ionInfinite)="getPosts($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

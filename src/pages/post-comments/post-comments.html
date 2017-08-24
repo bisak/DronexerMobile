@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Comments
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        <span ion-text showWhen="ios">Back</span>
+        <ion-icon name="close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="!comments.length">
+    <ion-item text-center>
+      <ion-spinner></ion-spinner>
+      <p>Loading <span class="loader-dot">.</span><span class="loader-dot">.</span><span class="loader-dot">.</span></p>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="comments.length">
+    <ion-item *ngFor="let comment of comments">
+      <ion-avatar (tap)="openProfilePage(comment)" item-start>
+        <img [src]="comment.profilePicUrl">
+      </ion-avatar>
+      <h2 (tap)="openProfilePage(comment)" [class.no-wrap]="comment.showFull">
+        {{comment.user.username}}
+        <small>{{comment.createdAt | timeAgo}}</small>
+      </h2>
+      <p (tap)="comment.showFull = !comment.showFull" [class.no-wrap]="comment.showFull">{{comment.comment}}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <form (ngSubmit)="onCommentFormSubmit()">
+    <ion-item>
+      <ion-input placeholder="Comment..." (ionFocus)="checkLogin()" [(ngModel)]="newComment" name="newComment"></ion-input>
+    </ion-item>
+  </form>
+</ion-footer>

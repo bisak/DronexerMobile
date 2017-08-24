@@ -1,0 +1,62 @@
+<ion-card>
+
+  <ion-item>
+    <ion-avatar (tap)="openProfilePage()"  item-start>
+      <img [src]="post.profilePicUrl">
+    </ion-avatar>
+    <h2 (tap)="openProfilePage()">{{post.user.username}}</h2>
+    <p (tap)="openProfilePage()">{{post.createdAt | timeAgo}}</p>
+  </ion-item>
+
+  <ion-card-content *ngIf="post.caption">
+    <p>{{post.caption}}</p>
+  </ion-card-content>
+
+  <img [src]="post.pictureUrl" #imageEl (tap)="openImageViewer(imageEl)">
+
+  <ion-row justify-content-center>
+    <ion-col text-center>
+      <button (tap)="post.isLikedByCurrentUser ? unLikePost() : likePost()"
+              [disabled]="!isLoggedIn" [color]="post.isLikedByCurrentUser ? 'secondary' : ''" ion-button icon-left small clear>
+        <ion-icon name="thumbs-up"></ion-icon>
+        <div>{{post.likesCount}} Likes</div>
+      </button>
+    </ion-col>
+    <ion-col text-center>
+      <button (tap)="openCommentsModal()" ion-button icon-left small clear>
+        <ion-icon name="text"></ion-icon>
+        <div>{{post.commentsCount}} <span class="hidden-xs">Comments</span></div>
+      </button>
+    </ion-col>
+    <ion-col text-center>
+      <button [color]="post.showShareBtns ? 'secondary' : ''" (tap)="post.showShareBtns = !post.showShareBtns" ion-button icon-left small clear>
+        <ion-icon name="share"></ion-icon>
+        <div>Share</div>
+      </button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="post.showShareBtns" nowrap justify-content-center>
+    <ion-col col-auto text-center>
+      <button class="testa" (tap)="shareOnFacebook()" ion-button icon-only large clear>
+        <ion-icon name="logo-facebook"></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col col-auto text-center>
+      <button (tap)="shareOnTwitter()" ion-button icon-only large clear>
+        <ion-icon name="logo-twitter"></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col col-auto text-center>
+      <button (tap)="shareOnInstagram()" ion-button icon-only large clear>
+        <ion-icon name="logo-instagram"></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col col-auto text-center>
+      <button (tap)="shareOnOthers()" ion-button icon-only large clear>
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
+
+</ion-card>

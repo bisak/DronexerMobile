@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="logo">
+    <img src="assets/img/appicon.svg" alt="Dronexer logo">
+  </div>
+
+  <form (submit)="onLogin(loginForm)" #loginForm="ngForm">
+    <ion-list no-lines>
+      <ion-item>
+        <ion-label floating>Username</ion-label>
+        <ion-input [(ngModel)]="loginData.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off"
+                   required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input [(ngModel)]="loginData.password" minlength="6" maxlength="50" name="password" type="password" #password="ngModel" required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+
+        <ion-row>
+          <ion-col>
+            <button ion-button color="secondary" type="submit" block>Login</button>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+
+      <ion-item>
+        <ion-row>
+          <ion-col>
+            <button ion-button type="button" class="signup-btn" [navPush]="'RegisterPage'" clear block>Signup</button>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+
+    </ion-list>
+  </form>
+
+</ion-content>

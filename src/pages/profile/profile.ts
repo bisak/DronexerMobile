@@ -114,6 +114,8 @@ export class ProfilePage {
         }
       }, (error) => {
         console.log(error);
+        infiniteScroll.complete();
+        this.isInfiniteScrollEnabled = false;
         if (error.status === 404) {
           return this.toastCtrl.create({
             message: 'No more posts available',
@@ -124,8 +126,6 @@ export class ProfilePage {
           message: 'An error occured when getting posts',
           duration: 3000
         }).present();
-        infiniteScroll.complete();
-        this.isInfiniteScrollEnabled = false;
       });
     });
   }

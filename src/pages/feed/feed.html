@@ -16,6 +16,22 @@
 
   <post *ngFor="let post of feedPosts" [post]="post"></post>
 
+  <ion-card *ngIf="isEmpty">
+
+    <ion-card-header>
+      This is your feed
+    </ion-card-header>
+
+    <ion-card-content>
+      <p>
+        Here you can find the latest activity by users you follow.
+        It looks like you don't follow anyone right now. 😞
+      </p>
+      <p (tap)="selectDiscoverTab()"><strong class="discover-btn">Discover</strong> people you like! 😎</p>
+    </ion-card-content>
+
+  </ion-card>
+
   <ion-infinite-scroll [enabled]="isInfiniteScrollEnabled" (ionInfinite)="getPosts($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

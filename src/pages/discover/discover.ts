@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, MenuController, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, MenuController, ModalController, NavController, NavParams, ToastController } from 'ionic-angular';
 import { PostsProvider } from '../../providers/posts/posts';
 import { AuthHelperProvider } from '../../providers/auth-helper/auth-helper';
 
@@ -16,6 +16,7 @@ export class DiscoverPage {
   isLoggedIn = false;
 
   constructor(public navCtrl: NavController,
+              public modalCtrl: ModalController,
               public navParams: NavParams,
               public menu: MenuController,
               public postsProvider: PostsProvider,
@@ -92,6 +93,11 @@ export class DiscoverPage {
         duration: 3000
       }).present();
     });
+  }
+
+  openSearchModal() {
+    let modal = this.modalCtrl.create('SearchPage');
+    modal.present();
   }
 
 }

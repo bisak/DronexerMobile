@@ -6,7 +6,7 @@ export function getEnv() {
     return {
       production: false,
       development: true,
-      apiUrl: 'http://192.168.122.241:8080/api'
+      apiUrl: 'http://192.168.0.104:8080/api'
     };
   } else if (env === 'prod') {
     return {

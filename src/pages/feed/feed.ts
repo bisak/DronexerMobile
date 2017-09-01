@@ -15,6 +15,8 @@ export class FeedPage {
   subscriptions = [];
   isLoggedIn = false;
 
+  isEmpty = false;
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public menu: MenuController,
@@ -67,31 +69,28 @@ export class FeedPage {
     this.isInfiniteScrollEnabled = true;
     let time = new Date().getTime();
     this.postsProvider.getFeedPosts(time).subscribe((retrievedPictures) => {
-      if (retrievedPictures.success) {
-        if (refresher) {
-          refresher.complete();
-        }
-        this.feedPosts = retrievedPictures.data;
-      } else {
-        console.log(retrievedPictures);
-        this.toastCtrl.create({
-          message: 'An error occured when getting posts',
-          duration: 3000
-        }).present();
+      if (refresher) {
+        refresher.complete();
       }
+      this.feedPosts = retrievedPictures.data;
     }, (error) => {
+      if (refresher) {
+        refresher.complete();
+      }
       console.log(error);
-      if (error.status === 204) {
+      if (error.status !== 404) {
         return this.toastCtrl.create({
-          message: 'No more posts available',
+          message: 'An error occured.',
           duration: 3000
         }).present();
       }
-      this.toastCtrl.create({
-        message: 'An error occured when getting posts',
-        duration: 3000
-      }).present();
+      this.isEmpty = true;
     });
+  }
+
+  selectDiscoverTab() {
+    let tabs = this.navCtrl.parent;
+    tabs.select(0);
   }
 
 }

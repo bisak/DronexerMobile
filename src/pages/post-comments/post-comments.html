@@ -16,7 +16,7 @@
   <ion-list *ngIf="!comments.length">
     <ion-item text-center>
       <ion-spinner></ion-spinner>
-      <p>Loading <span class="loader-dot">.</span><span class="loader-dot">.</span><span class="loader-dot">.</span></p>
+      <loading-text></loading-text>
     </ion-item>
   </ion-list>
   <ion-list *ngIf="comments.length">

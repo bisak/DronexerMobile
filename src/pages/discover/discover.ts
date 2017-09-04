@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, MenuController, ModalController, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, MenuController, ModalController, NavController, NavParams, Refresher, ToastController } from 'ionic-angular';
 import { PostsProvider } from '../../providers/posts/posts';
 import { AuthHelperProvider } from '../../providers/auth-helper/auth-helper';
 
@@ -34,20 +34,10 @@ export class DiscoverPage {
   getPosts(infiniteScroll) {
     let lastPostTime = new Date(this.explorePosts[this.explorePosts.length - 1].createdAt).getTime();
     this.postsProvider.getExplorePosts(lastPostTime).subscribe((retrievedPictures) => {
-      if (retrievedPictures.success) {
-        const picData = retrievedPictures.data;
-        this.explorePosts.push(...picData);
-        infiniteScroll.complete();
-      } else {
-        console.log(retrievedPictures);
-        this.toastCtrl.create({
-          message: 'No more posts available',
-          duration: 3000
-        }).present();
-        infiniteScroll.complete();
-        this.isInfiniteScrollEnabled = false;
-      }
+      this.explorePosts.push(...retrievedPictures.data);
+      infiniteScroll.complete();
     }, (error) => {
+      infiniteScroll.complete();
       console.log(error);
       if (error.status === 404) {
         return this.toastCtrl.create({
@@ -59,27 +49,21 @@ export class DiscoverPage {
         message: 'An error occured when getting posts',
         duration: 3000
       }).present();
-      infiniteScroll.complete();
       this.isInfiniteScrollEnabled = false;
     });
   }
 
-  getInitialPosts(refresher?) {
+  getInitialPosts(refresher?: Refresher) {
     this.isInfiniteScrollEnabled = true;
     let time = new Date().getTime();
     this.postsProvider.getExplorePosts(time).subscribe((retrievedPictures) => {
-      if (retrievedPictures.success) {
-        if (refresher) {
-          refresher.complete();
-        }
-        this.explorePosts = retrievedPictures.data;
-      } else {
-        console.log(retrievedPictures);
-        this.toastCtrl.create({
-          message: 'An error occured when getting posts',
-          duration: 3000
-        }).present();
+      if (refresher) {
+        refresher.complete();
       }
+      if (this.explorePosts.length >= 10) {
+        this.explorePosts = this.explorePosts.splice(0, 10);
+      }
+      this.explorePosts.unshift(...retrievedPictures.data);
     }, (error) => {
       console.log(error);
       if (error.status === 204) {

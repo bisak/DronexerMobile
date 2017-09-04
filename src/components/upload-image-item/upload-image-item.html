@@ -1,0 +1,30 @@
+<ion-card #uploadCard *ngIf="base64Img">
+  <img [src]="base64Img">
+  <ion-card-content>
+    <form (ngSubmit)="onUploadFormSubmit(uploadCard)">
+      <ion-list>
+        <ion-item>
+          <ion-label color="secondary" stacked>Caption</ion-label>
+          <ion-input [disabled]="isSendingToServer" [(ngModel)]="caption" name="caption" type="text" placeholder="What's it about"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="secondary" stacked>Tags</ion-label>
+          <ion-input [disabled]="isSendingToServer" [(ngModel)]="tags" name="tags" type="text" placeholder="#landscape #sunset..."></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="secondary" stacked>Taken with</ion-label>
+          <ion-select [disabled]="isSendingToServer" [(ngModel)]="droneSelected" name="dronesSelector">
+            <ion-option *ngFor="let drone of staticDataProvider.getDronesArray(); let i = index" [value]="i">{{drone}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <ion-item>
+        <loading-text [text]="'Uploading'" *ngIf="isSendingToServer"></loading-text>
+        <button [disabled]="isSendingToServer" color="secondary" ion-button clear item-end icon-only large>
+          <ion-icon [ngClass]="{'loading' : isSendingToServer}" name="cloud-upload"></ion-icon>
+        </button>
+      </ion-item>
+    </form>
+  </ion-card-content>
+</ion-card>
+

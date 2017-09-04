@@ -19,11 +19,13 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { PostProvider } from '../providers/post/post';
 import { PostsProvider } from '../providers/posts/posts';
 import { HeaderColor } from '@ionic-native/header-color';
+import { FileTransfer } from '@ionic-native/file-transfer';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { ProfileProvider } from '../providers/profile/profile';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { File } from '@ionic-native/file';
 import { FilesProvider } from '../providers/files/files';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { FilesProvider } from '../providers/files/files';
     HeaderColor,
     File,
     ProfileProvider,
-    FilesProvider
+    FilesProvider,
+    FileTransfer,
+    AndroidPermissions
   ]
 })
 export class AppModule {

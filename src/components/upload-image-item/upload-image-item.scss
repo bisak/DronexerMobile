@@ -1,0 +1,14 @@
+upload-image-item {
+  .loading {
+    animation: rotation 0.8s infinite linear;
+  }
+
+  @-webkit-keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
+}

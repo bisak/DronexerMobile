@@ -8,7 +8,13 @@
 </ion-header>
 
 
-<ion-content padding>
-<button ion-button (tap)="sumBtnClik()">CLICK</button>
-  <img [src]="img">
+<ion-content>
+  <ion-row>
+    <ion-col>
+      <button ion-button block (tap)="getPictures()">Choose</button>
+    </ion-col>
+  </ion-row>
+  <div *ngFor="let fileUri of fileUrisArray">
+    <upload-image-item [imageUri]="fileUri"></upload-image-item>
+  </div>
 </ion-content>

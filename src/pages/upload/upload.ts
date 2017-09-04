@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, LoadingController, NavController, NavParams, ToastController } from 'ionic-angular';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { File } from '@ionic-native/file';
 import { PostsProvider } from '../../providers/posts/posts';
+import { FilesProvider } from '../../providers/files/files';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 @IonicPage()
 @Component({
@@ -11,18 +13,32 @@ import { PostsProvider } from '../../providers/posts/posts';
 })
 export class UploadPage {
 
-  img = '';
+  fileUrisArray = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public imagePicker: ImagePicker,
               public file: File,
-              public postsProvider: PostsProvider) {
+              public postsProvider: PostsProvider,
+              public toastCtrl: ToastController,
+              public filesProvider: FilesProvider,
+              public loadingCtrl: LoadingController,
+              public androidPermissions: AndroidPermissions) {
   }
 
-  sumBtnClik() {
-    this.imagePicker.getPictures({ quality: 95 }).then((fileUris) => {
-      this.postsProvider.uploadPictures(fileUris)
-    });
+  ionViewWillEnter() {
+    if (this.fileUrisArray.length === 0) {
+      this.getPictures();
+    }
+  }
+
+
+  async getPictures() {
+    try {
+      await this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE);
+      this.fileUrisArray.unshift(...await this.imagePicker.getPictures({ quality: 95 }));
+    } catch (error) {
+      this.toastCtrl.create({ message: 'An error occured :/', duration: 1000 }).present();
+    }
   }
 }

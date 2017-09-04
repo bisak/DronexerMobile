@@ -7,14 +7,14 @@ import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/throw';
 import { getEnv } from '../../environments/environments';
 import { Observable } from 'rxjs/Observable';
-import { Storage } from '@ionic/storage';
+import { AuthHelperProvider } from '../auth-helper/auth-helper';
 
 @Injectable()
 export class ApiProvider {
   url: string = getEnv().apiUrl;
 
   constructor(public http: Http,
-              public storage: Storage) {
+              public authHelperProvider: AuthHelperProvider) {
   }
 
   get(endpoint: string) {
@@ -73,7 +73,7 @@ export class ApiProvider {
   }
 
   private getAuthToken() {
-    return Observable.fromPromise(this.storage.get('token'));
+    return Observable.fromPromise(this.authHelperProvider.getToken());
   }
 
 }

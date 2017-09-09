@@ -12,41 +12,41 @@
     <img src="assets/img/appicon.svg" alt="Dronexer logo">
   </div>
 
-  <form (submit)="onRegisterSubmit(registerForm)" #registerForm="ngForm">
+  <form (submit)="onRegisterSubmit()">
     <ion-list no-lines>
 
       <ion-item>
-        <ion-label floating>First name</ion-label>
-        <ion-input [(ngModel)]="registerData.firstName" name="username" type="text" spellcheck="false" required>
+        <ion-label floating>First name*</ion-label>
+        <ion-input [(ngModel)]="registerData.firstName" name="firstName" type="text" spellcheck="false" required>
         </ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Last name</ion-label>
-        <ion-input [(ngModel)]="registerData.lastName" name="username" type="text" spellcheck="false" required>
+        <ion-label floating>Last name*</ion-label>
+        <ion-input [(ngModel)]="registerData.lastName" name="lastName" type="text" spellcheck="false" required>
         </ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Username</ion-label>
+        <ion-label floating>Username*</ion-label>
         <ion-input [(ngModel)]="registerData.username" name="username" type="text" spellcheck="false" autocapitalize="off" required>
         </ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label floating>E-mail</ion-label>
-        <ion-input [(ngModel)]="registerData.email" name="username" type="email" required></ion-input>
+        <ion-label floating>E-mail*</ion-label>
+        <ion-input [(ngModel)]="registerData.email" name="email" type="email" required></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Password</ion-label>
+        <ion-label floating>Password*</ion-label>
         <ion-input [(ngModel)]="registerData.password" minlength="6" maxlength="50" name="password" type="password" required>
         </ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Confirm password</ion-label>
-        <ion-input [(ngModel)]="registerData.passwordConfirm" minlength="6" maxlength="50" name="password" type="password" required>
+        <ion-label floating>Confirm password*</ion-label>
+        <ion-input [(ngModel)]="registerData.passwordConfirm" minlength="6" maxlength="50" name="passwordConfirm" type="password" required>
         </ion-input>
       </ion-item>
 
@@ -77,15 +77,15 @@
       </ion-item>
 
       <ion-item>
-        <ion-row margin (click)="openTOU()" justify-content-center>
-          <p>By signing up you agree to our <strong>terms of use</strong></p>
+        <ion-row (click)="openTOU()" justify-content-center>
+          <p>By signing up you agree to our <strong><u>terms of use</u></strong></p>
         </ion-row>
       </ion-item>
 
       <ion-item>
         <ion-row>
           <ion-col>
-            <button ion-button color="secondary" type="submit" block>Signup</button>
+            <button ion-button color="secondary" type="submit" block>Sign up</button>
           </ion-col>
         </ion-row>
       </ion-item>

@@ -15,7 +15,6 @@ import { IonicStorageModule } from '@ionic/storage';
 import { StaticDataProvider } from '../providers/static-data/static-data';
 import { ValidateProvider } from '../providers/validate/validate';
 import { ImagePicker } from '@ionic-native/image-picker';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { PostProvider } from '../providers/post/post';
 import { PostsProvider } from '../providers/posts/posts';
 import { HeaderColor } from '@ionic-native/header-color';
@@ -26,6 +25,10 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { File } from '@ionic-native/file';
 import { FilesProvider } from '../providers/files/files';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { PhotoViewer } from '@ionic-native/photo-viewer'
+import { BrowserTab } from '@ionic-native/browser-tab';
+import { SearchProvider } from '../providers/search/search';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions';
   ],
   imports: [
     IonicImageViewerModule,
+    ComponentsModule,
     BrowserModule,
     HttpModule,
     FormsModule,
@@ -55,7 +59,6 @@ import { AndroidPermissions } from '@ionic-native/android-permissions';
     StaticDataProvider,
     ValidateProvider,
     ImagePicker,
-    InAppBrowser,
     PostProvider,
     PostsProvider,
     HeaderColor,
@@ -63,7 +66,10 @@ import { AndroidPermissions } from '@ionic-native/android-permissions';
     ProfileProvider,
     FilesProvider,
     FileTransfer,
-    AndroidPermissions
+    AndroidPermissions,
+    PhotoViewer,
+    BrowserTab,
+    SearchProvider
   ]
 })
 export class AppModule {

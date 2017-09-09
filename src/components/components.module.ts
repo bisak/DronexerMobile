@@ -8,15 +8,23 @@ import { UploadImageItemComponent } from './upload-image-item/upload-image-item'
 import { LoadingTextComponent } from './loading-text/loading-text';
 
 @NgModule({
-  declarations: [PostComponent,
+  declarations: [
+    PostComponent,
     ProfileGridComponent,
     UploadImageItemComponent,
-    LoadingTextComponent],
-  imports: [IonicModule, PipesModule, IonicImageViewerModule],
-  exports: [PostComponent,
+    LoadingTextComponent
+  ],
+  imports: [
+    IonicModule,
+    PipesModule,
+    IonicImageViewerModule
+  ],
+  exports: [
+    PostComponent,
     ProfileGridComponent,
     UploadImageItemComponent,
-    LoadingTextComponent]
+    LoadingTextComponent
+  ]
 })
 export class ComponentsModule {
 }

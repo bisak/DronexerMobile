@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { PostProvider } from '../../providers/post/post';
-import { ImageViewerController } from 'ionic-img-viewer';
-
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 @Component({
   selector: 'profile-grid',
@@ -12,11 +11,11 @@ export class ProfileGridComponent {
   @Input() posts;
 
   constructor(public postProvider: PostProvider,
-              public imageViewCtrl: ImageViewerController) {
+              public photoViewer: PhotoViewer) {
   }
 
-  openImageViewer(image, post) {
-    this.imageViewCtrl.create(image, { fullResImage: this.postProvider.getPictureUrlForPost(post) }).present();
+  openImageViewer(post) {
+    this.photoViewer.show(this.postProvider.getPictureUrlForPost(post), '', { share: false });
   }
 
 }

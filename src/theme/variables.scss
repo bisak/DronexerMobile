@@ -29,6 +29,9 @@ $colors: (
   dark: #222
 );
 
+.secondary{
+  color: color($colors, secondary);;
+}
 // Shared Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
@@ -37,7 +40,8 @@ $colors: (
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 $toolbar-background: color($colors, primary);
 $tabs-tab-color-active: color($colors, secondary);
-
+$label-md-text-color-focused: color($colors, secondary);
+$text-input-md-highlight-color: color($colors, secondary);
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here

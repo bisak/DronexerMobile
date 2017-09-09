@@ -1,0 +1,97 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Settings
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        <span ion-text showWhen="ios">Back</span>
+        <ion-icon name="close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form *ngIf="profileData" (submit)="openConfirmation()">
+    <ion-list no-lines>
+
+      <ion-item>
+        <ion-label floating>First name*</ion-label>
+        <ion-input [(ngModel)]="profileData.firstName" name="firstName" type="text" spellcheck="false" required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Last name*</ion-label>
+        <ion-input [(ngModel)]="profileData.lastName" name="lastName" type="text" spellcheck="false" required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Username*</ion-label>
+        <ion-input [(ngModel)]="profileData.username" name="username" type="text" spellcheck="false" autocapitalize="off" required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>E-mail*</ion-label>
+        <ion-input [(ngModel)]="profileData.email" name="email" type="email" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Select your drones</ion-label>
+        <ion-select [(ngModel)]="profileData.drones" name="dronesSelector" multiple="true">
+          <ion-option *ngFor="let drone of dronesArray; let i = index" [value]="i">{{drone}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Profile description (about me)</ion-label>
+        <ion-input [(ngModel)]="profileData.about" name="about" type="text">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input [(ngModel)]="profileData.password" minlength="6" maxlength="50" name="password" type="password">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Confirm password*</ion-label>
+        <ion-input [(ngModel)]="profileData.passwordConfirm" minlength="6" maxlength="50" name="passwordConfirm" type="password">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-row>
+          <ion-col>
+            <button block ion-button>
+              <input type="file" accept="image/png,image/jpeg" (change)="onProfilePictureSelected($event)" id="file-input">
+              Select profile picture
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+
+      <ion-item>
+        <ion-row justify-content-center>
+          <ion-avatar>
+            <img class="avatar-preview" [src]="profilePictureEncoded || profileData.profilePicUrl">
+          </ion-avatar>
+        </ion-row>
+      </ion-item>
+
+      <ion-item>
+        <ion-row>
+          <ion-col>
+            <button ion-button color="secondary" type="submit" block>Edit profile</button>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+
+  </form>
+
+</ion-content>

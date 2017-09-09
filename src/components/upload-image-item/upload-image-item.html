@@ -28,3 +28,11 @@
   </ion-card-content>
 </ion-card>
 
+<ion-card *ngIf="!base64Img">
+
+  <ion-card-content text-center>
+    <ion-spinner></ion-spinner>
+    <loading-text [text]="'Loading image'"></loading-text>
+  </ion-card-content>
+
+</ion-card>

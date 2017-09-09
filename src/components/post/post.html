@@ -1,18 +1,23 @@
 <ion-card>
 
   <ion-item>
-    <ion-avatar (tap)="openProfilePage()"  item-start>
+    <ion-avatar (tap)="openProfilePage()" item-start>
       <img [src]="post.profilePicUrl">
     </ion-avatar>
     <h2 (tap)="openProfilePage()">{{post.user.username}}</h2>
     <p (tap)="openProfilePage()">{{post.createdAt | timeAgo}}</p>
   </ion-item>
 
-  <ion-card-content *ngIf="post.caption">
-    <p>{{post.caption}}</p>
+  <ion-card-content *ngIf="post.caption || post.tags.length">
+    <ion-row>
+      <p>{{post.caption}}</p>
+    </ion-row>
+    <ion-row>
+      <span *ngFor="let tag of post.tags" class="tag" [navPush]="'TagPage'" [navParams]="{tag: tag}" >{{tag | insertHashtag}}&nbsp;&nbsp;</span>
+    </ion-row>
   </ion-card-content>
 
-  <img [src]="post.pictureUrl" #imageEl (tap)="openImageViewer(imageEl)">
+  <img [src]="post.pictureUrl" (tap)="openImageViewer()">
 
   <ion-row justify-content-center>
     <ion-col text-center>

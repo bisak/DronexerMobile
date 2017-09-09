@@ -5,7 +5,7 @@
     </button>
     <ion-title>Profile</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only>
+      <button (tap)="openSettingsModal()" ion-button icon-only>
         <ion-icon name="settings"></ion-icon>
       </button>
     </ion-buttons>
@@ -21,32 +21,96 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding-vertical>
-  <div padding-top text-center *ngIf="profileData">
-    <img class="avatar" [src]="profileData.profilePicUrl" alt="avatar">
-    <h2>{{profileData.username}}</h2>
-    <h3>{{profileData.firstName}} {{profileData.lastName}}</h3>
-  </div>
+<ion-content>
 
-  <ion-refresher (ionRefresh)="getInitialWallPosts($event)">
+  <ion-refresher (ionRefresh)="onRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-row>
-    <ion-col text-center>
-      <button (tap)="selectGridViewMode()" [color]="profileViewMode === 'grid' ? 'secondary' : '' " ion-button block icon-only clear>
-        <ion-icon name="grid"></ion-icon>
-      </button>
-    </ion-col>
-    <ion-col text-center>
-      <button (tap)="selectListViewMode()" [color]="profileViewMode === 'list' ? 'secondary' : '' " ion-button block icon-only clear>
-        <ion-icon name="list"></ion-icon>
-      </button>
-    </ion-col>
-  </ion-row>
+  <ion-card>
+
+    <ion-card-content *ngIf="profileData">
+      <ion-row justify-content-center>
+        <ion-col col-auto>
+          <img class="avatar" [src]="profileData.profilePicUrl" alt="avatar">
+        </ion-col>
+      </ion-row>
+      <ion-row justify-content-center>
+        <ion-col col-auto>
+          <h1>{{profileData.username}}</h1>
+        </ion-col>
+      </ion-row>
+      <ion-row justify-content-center>
+        <ion-col col-auto>
+          <h2>{{profileData.firstName}} {{profileData.lastName}}</h2>
+        </ion-col>
+      </ion-row>
+      <ion-row justify-content-center>
+        <ion-col text-center col-4>
+          <h1>{{profileData.postsCount}}</h1>
+          <h3>Posts</h3>
+        </ion-col>
+        <ion-col text-center col-4>
+          <h1>{{profileData.followersCount}}</h1>
+          <h3>Followers</h3>
+        </ion-col>
+        <ion-col text-center col-4>
+          <h1>{{profileData.followeesCount}}</h1>
+          <h3>Following</h3>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="isLoggedIn && !isProfileMine" justify-content-center>
+        <ion-col *ngIf="!profileData.isFollowed" text-center col-auto>
+          <button (tap)="followUser()" ion-button icon-end round color="secondary">
+            Follow
+            <ion-icon name="person-add"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col *ngIf="profileData.isFollowed" text-center col-auto>
+          <button (tap)="unFollowUser()" ion-button icon-end round color="danger">
+            UnFollow
+            <ion-icon name="person-add"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card color="secondary" *ngIf="isProfileMine || (profileData && profileData.about)">
+
+    <ion-card-header>
+      About me
+    </ion-card-header>
+
+    <ion-card-content *ngIf="profileData && profileData.about">
+      {{profileData.about}}
+    </ion-card-content>
+
+    <ion-card-content *ngIf="profileData && !profileData.about && isProfileMine">
+      You have no profile description. Add one in settings.
+    </ion-card-content>
+
+  </ion-card>
+
+  <ion-card>
+    <ion-row>
+      <ion-col text-center>
+        <button (tap)="selectViewMode('grid')" [color]="profileViewMode === 'grid' ? 'secondary' : '' " ion-button full icon-only clear>
+          <ion-icon name="grid"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col text-center>
+        <button (tap)="selectViewMode('list')" [color]="profileViewMode === 'list' ? 'secondary' : '' " ion-button full icon-only clear>
+          <ion-icon name="list"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
 
   <div *ngIf="profileViewMode === 'grid'">
-    <profile-grid [posts]="wallPosts"></profile-grid>
+    <ion-card>
+      <profile-grid [posts]="wallPosts"></profile-grid>
+    </ion-card>
   </div>
 
   <div *ngIf="profileViewMode === 'list'">

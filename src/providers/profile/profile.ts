@@ -4,27 +4,19 @@ import { ApiProvider } from '../api/api';
 
 @Injectable()
 export class ProfileProvider {
-  constructor(private apiService: ApiProvider) {
+  constructor(private apiProvider: ApiProvider) {
   }
 
   getProfile (username: string): Observable<any> {
-    return this.apiService.get(`/users/profile-info/${username}`);
+    return this.apiProvider.get(`/users/profile-info/${username}`);
   }
 
   editProfileInfo (data: any): Observable<any> {
-    return this.apiService.post(`/users/edit-profile`, data);
+    return this.apiProvider.post(`/users/edit-profile`, data);
   }
 
   deleteProfile (data: any): Observable<any> {
-    return this.apiService.post(`/users/delete-profile`, data);
-  }
-
-  followUser (userId: string): Observable<any> {
-    return this.apiService.post(`/users/follow/${userId}`, {})
-  }
-
-  unFollowUser (userId: string): Observable<any> {
-    return this.apiService.post(`/users/unfollow/${userId}`, {})
+    return this.apiProvider.post(`/users/delete-profile`, data);
   }
 
 }

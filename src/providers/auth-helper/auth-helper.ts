@@ -27,7 +27,7 @@ export class AuthHelperProvider {
     if (!token) {
       return {};
     }
-    return this.jwtHelper.decodeToken(token)._doc || {};
+    return this.jwtHelper.decodeToken(token) || {};
   }
 
   async isLoggedIn() {

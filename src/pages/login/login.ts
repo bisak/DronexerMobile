@@ -12,6 +12,7 @@ import { AuthHelperProvider } from '../../providers/auth-helper/auth-helper';
 export class LoginPage {
 
   loginData = { username: '', password: '' };
+  isLogInBtnDisabled = false;
 
   constructor(public navCtrl: NavController,
               public authProvider: AuthProvider,
@@ -27,15 +28,18 @@ export class LoginPage {
       });
       return toast.present();
     }
+    this.isLogInBtnDisabled = true;
     this.authProvider.loginUser(this.loginData).subscribe((response) => {
       this.authHelperProvider.loginUser(response.token).then((reply) => {
         this.toastCtrl.create({
           message: 'Welcome',
           duration: 3000
         }).present();
-        this.navCtrl.setRoot('TabsPage')
-      })
+        this.navCtrl.setRoot('TabsPage');
+      });
     }, error => {
+      this.isLogInBtnDisabled = false;
+
       let toast = this.toastCtrl.create({
         message: 'Login request failed :(',
         duration: 3000

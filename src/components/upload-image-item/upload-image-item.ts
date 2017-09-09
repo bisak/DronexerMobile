@@ -45,4 +45,5 @@ export class UploadImageItemComponent implements OnInit {
     this.isSendingToServer = false;
     uploadCard.remove();
   }
+
 }

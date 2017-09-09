@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, MenuController, ModalController, NavController, NavParams, Refresher, ToastController } from 'ionic-angular';
+import { IonicPage, ModalController, NavController, NavParams, Refresher, ToastController } from 'ionic-angular';
 import { PostsProvider } from '../../providers/posts/posts';
 import { AuthHelperProvider } from '../../providers/auth-helper/auth-helper';
 
@@ -12,19 +12,16 @@ export class DiscoverPage {
 
   explorePosts: Array<any> = [];
   isInfiniteScrollEnabled = true;
-  subscriptions = [];
-  isLoggedIn = false;
+  subscriptions = []; // TODO sometime should implement this across the mobile app...
 
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
               public navParams: NavParams,
-              public menu: MenuController,
               public postsProvider: PostsProvider,
-              public toastCtrl: ToastController,
-              public authHelperProvider: AuthHelperProvider) {
-    this.authHelperProvider.isLoggedIn().then((isLogged) => {
-      this.isLoggedIn = isLogged;
-    });
+              public toastCtrl: ToastController) {
+  }
+
+  ionViewWillEnter() {
   }
 
   ionViewDidLoad() {
@@ -38,6 +35,7 @@ export class DiscoverPage {
       infiniteScroll.complete();
     }, (error) => {
       infiniteScroll.complete();
+      this.isInfiniteScrollEnabled = false;
       console.log(error);
       if (error.status === 404) {
         return this.toastCtrl.create({
@@ -49,7 +47,6 @@ export class DiscoverPage {
         message: 'An error occured when getting posts',
         duration: 3000
       }).present();
-      this.isInfiniteScrollEnabled = false;
     });
   }
 
@@ -60,10 +57,7 @@ export class DiscoverPage {
       if (refresher) {
         refresher.complete();
       }
-      if (this.explorePosts.length >= 10) {
-        this.explorePosts = this.explorePosts.splice(0, 10);
-      }
-      this.explorePosts.unshift(...retrievedPictures.data);
+      this.explorePosts = retrievedPictures.data;
     }, (error) => {
       console.log(error);
       if (error.status === 204) {

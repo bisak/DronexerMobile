@@ -4,7 +4,7 @@ import { StaticDataProvider } from '../../providers/static-data/static-data';
 import { ValidateProvider } from '../../providers/validate/validate';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { AuthProvider } from '../../providers/auth/auth';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { BrowserTab } from '@ionic-native/browser-tab';
 
 @IonicPage()
 @Component({
@@ -33,7 +33,7 @@ export class RegisterPage {
               public toastCtrl: ToastController,
               public imagePicker: ImagePicker,
               public authProvider: AuthProvider,
-              public inAppBrowser: InAppBrowser) {
+              private browserTab: BrowserTab) {
   }
 
   onProfilePictureSelected(ev) {
@@ -55,7 +55,7 @@ export class RegisterPage {
     }
   }
 
-  onRegisterSubmit(form) {
+  onRegisterSubmit() {
     const registerFormData: FormData = new FormData();
     const registerInputValidator = this.validateProvider.validateRegisterInput(this.registerData);
     if (!registerInputValidator.isValid) {
@@ -86,18 +86,14 @@ export class RegisterPage {
     });
   }
 
-  /*async doPictures() {
-    let hasPermission = await this.imagePicker.hasReadPermission();
-    if (hasPermission === false) {
-      await this.imagePicker.requestReadPermission();
-    } else {
-      let pics = await this.imagePicker.getPictures({});
-      console.log(pics);
-    }
-  }*/
-
   openTOU() {
-    this.inAppBrowser.create('https://beta.dronexer.com/terms', '', { zoom: 'no' });
+    this.browserTab.isAvailable().then((isAvailable: boolean) => {
+      if (isAvailable) {
+        this.browserTab.openUrl('https://dronexer.com/terms-of-use');
+      } else {
+        window.open('https://dronexer.com/terms-of-use', '_system');
+      }
+    });
   }
 
 }

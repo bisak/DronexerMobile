@@ -1,12 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import {
-  Content, IonicPage, Keyboard, NavController, NavParams, ToastController,
-  ViewController
-} from 'ionic-angular';
+import { Content, IonicPage, Keyboard, NavController, NavParams, ToastController, ViewController } from 'ionic-angular';
 import { PostProvider } from '../../providers/post/post';
 import { Subscription } from 'rxjs/Subscription';
 import { UsersProvider } from '../../providers/users/users';
 import { AuthHelperProvider } from '../../providers/auth-helper/auth-helper';
+import 'rxjs/add/operator/finally';
 
 @IonicPage()
 @Component({
@@ -20,6 +18,7 @@ export class PostCommentsPage {
   subscriptions: Subscription[] = [];
   newComment = '';
   isLoggedIn = false;
+  didLoad = false;
   @ViewChild(Content) content: Content;
 
   constructor(public navCtrl: NavController,
@@ -55,25 +54,32 @@ export class PostCommentsPage {
   }
 
   loadComments() {
-    this.subscriptions.push(this.postProvider.getComments(this.post._id).subscribe((response) => {
-      this.comments = response.data;
-      this.comments.map((comment) => {
-        comment.profilePicUrl = this.usersProvider.getProfilePicUrl(comment.user._id);
-      });
-      this.goToBottom();
-    }, (error) => {
-      console.log(error);
-    }));
+    this.subscriptions.push(this.postProvider.getComments(this.post._id)
+      .finally(() => {
+        this.didLoad = true;
+      }).subscribe((response) => {
+        this.comments = response.data;
+        this.comments.map((comment) => {
+          return comment.profilePicUrl = this.usersProvider.getProfilePicUrl(comment.user._id);
+        });
+        this.goToBottom();
+      }, (error) => {
+        console.log(error);
+        if (error.status === 404) {
+          return this.toastCtrl.create({ message: 'No comments available.', duration: 1500 }).present();
+        }
+        return this.toastCtrl.create({ message: 'Couldn\'t load comments :/', duration: 1500 }).present();
+      }));
   }
 
   onCommentFormSubmit() {
-    const comment = this.newComment;
+    const comment = this.newComment.trim();
     const postId = this.post._id;
-    if (!this.checkLogin() || !comment.length) {
-      this.newComment = '';
+    if (!comment.length) {
       return null;
     }
     this.keyboard.close();
+    this.newComment = '';
     this.subscriptions.push(this.postProvider.commentPost(postId, { comment }).subscribe((data) => {
       this.authHelperProvider.getDecodedAuthToken().then((user) => {
         const commentToAdd = {
@@ -87,11 +93,8 @@ export class PostCommentsPage {
       });
     }, (error) => {
       console.log(error);
-      if (error.status === 401) {
-        return this.toastCtrl.create({ message: 'Please log in to comment.', duration: 2000 }).present();
-      }
+      return this.toastCtrl.create({ message: 'An error occured :/', duration: 1500 }).present();
     }));
-    this.newComment = '';
   }
 
   goToBottom() {
@@ -100,10 +103,4 @@ export class PostCommentsPage {
     }, 200);
   }
 
-  checkLogin() {
-    if (!this.isLoggedIn) {
-      this.toastCtrl.create({ message: 'Please log in to comment.', duration: 2000 }).present();
-    }
-    return this.isLoggedIn;
-  }
 }

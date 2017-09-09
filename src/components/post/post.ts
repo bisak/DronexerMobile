@@ -6,13 +6,14 @@ import { Subscription } from 'rxjs/Subscription';
 import { AuthHelperProvider } from '../../providers/auth-helper/auth-helper';
 import { ModalController, NavController } from 'ionic-angular';
 import { SocialSharing } from '@ionic-native/social-sharing';
-import { ImageViewerController } from 'ionic-img-viewer';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 @Component({
   selector: 'post',
   templateUrl: 'post.html'
 })
 export class PostComponent implements OnInit {
+
   @Input() post;
   @Input() isSingle = false;
   @ViewChild('postElement') postElement: ElementRef;
@@ -25,7 +26,7 @@ export class PostComponent implements OnInit {
               public authHelperProvider: AuthHelperProvider,
               public modalCtrl: ModalController,
               public socialSharing: SocialSharing,
-              public imageViewerCtrl: ImageViewerController,
+              public photoViewer: PhotoViewer,
               public navCtrl: NavController) {
   }
 
@@ -105,7 +106,7 @@ export class PostComponent implements OnInit {
     this.navCtrl.push('ProfilePage', { username: this.post.user.username });
   }
 
-  openImageViewer(image) {
-    this.imageViewerCtrl.create(image).present();
+  openImageViewer() {
+    this.photoViewer.show(this.postProvider.getPictureUrlForPost(this.post), '', { share: false });
   }
 }

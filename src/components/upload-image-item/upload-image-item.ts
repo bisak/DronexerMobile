@@ -3,6 +3,7 @@ import { FilesProvider } from '../../providers/files/files';
 import { ToastController } from 'ionic-angular';
 import { StaticDataProvider } from '../../providers/static-data/static-data';
 import { PostsProvider } from '../../providers/posts/posts';
+import { ValidateProvider } from '../../providers/validate/validate';
 
 @Component({
   selector: 'upload-image-item',
@@ -22,7 +23,8 @@ export class UploadImageItemComponent implements OnInit {
   constructor(public filesProvider: FilesProvider,
               public toastCtrl: ToastController,
               public staticDataProvider: StaticDataProvider,
-              public postsProvider: PostsProvider) {
+              public postsProvider: PostsProvider,
+              public validateProvider: ValidateProvider) {
   }
 
   async ngOnInit() {
@@ -37,7 +39,7 @@ export class UploadImageItemComponent implements OnInit {
   async onUploadFormSubmit(uploadCard) {
     let additionalDataObj = {
       caption: this.caption,
-      tags: this.tags,
+      tags: this.validateProvider.getTagsArray(this.tags),
       droneTaken: this.droneSelected
     };
     this.isSendingToServer = true;

@@ -6,6 +6,7 @@ import { PostsProvider } from '../../providers/posts/posts';
 import { PostProvider } from '../../providers/post/post';
 import { UsersProvider } from '../../providers/users/users';
 import { Storage } from '@ionic/storage';
+import 'rxjs/add/operator/finally';
 
 @IonicPage()
 @Component({
@@ -82,18 +83,45 @@ export class ProfilePage {
     this.isInfiniteScrollEnabled = true;
     let time = new Date().getTime();
     this.authHelperProvider.getDecodedAuthToken().then((user) => {
-      this.postsProvider.getWallPosts(this.requestedUsername || user.username, time).subscribe((response) => {
-        if (refresher) {
-          refresher.complete();
-        }
-        this.wallPosts = response.data;
+      this.postsProvider.getWallPosts(this.requestedUsername || user.username, time)
+        .finally(() => {
+          if (refresher) {
+            refresher.complete();
+          }
+        })
+        .subscribe((response) => {
+          this.wallPosts = response.data;
+        }, (error) => {
+
+          if (error.status === 404) {
+            return this.toastCtrl.create({
+              message: 'No posts available',
+              duration: 2000
+            }).present();
+          }
+          this.toastCtrl.create({
+            message: 'An error occured when getting posts',
+            duration: 2000
+          }).present();
+        });
+    });
+  }
+
+  async getPosts(infiniteScroll) {
+    let lastPostTime = new Date(this.wallPosts[this.wallPosts.length - 1].createdAt).getTime();
+    let user = await this.authHelperProvider.getDecodedAuthToken();
+    this.postsProvider.getWallPosts(this.requestedUsername || user.username, lastPostTime)
+      .finally(() => {
+        infiniteScroll.complete();
+      })
+      .subscribe((retrievedPictures) => {
+        const picData = retrievedPictures.data;
+        this.wallPosts.push(...picData);
       }, (error) => {
-        if (refresher) {
-          refresher.complete();
-        }
+        this.isInfiniteScrollEnabled = false;
         if (error.status === 404) {
           return this.toastCtrl.create({
-            message: 'No posts available',
+            message: 'No more posts available',
             duration: 2000
           }).present();
         }
@@ -102,30 +130,6 @@ export class ProfilePage {
           duration: 2000
         }).present();
       });
-    });
-  }
-
-  async getPosts(infiniteScroll) {
-    let lastPostTime = new Date(this.wallPosts[this.wallPosts.length - 1].createdAt).getTime();
-    let user = await this.authHelperProvider.getDecodedAuthToken();
-    this.postsProvider.getWallPosts(this.requestedUsername || user.username, lastPostTime).subscribe((retrievedPictures) => {
-      const picData = retrievedPictures.data;
-      this.wallPosts.push(...picData);
-      infiniteScroll.complete();
-    }, (error) => {
-      infiniteScroll.complete();
-      this.isInfiniteScrollEnabled = false;
-      if (error.status === 404) {
-        return this.toastCtrl.create({
-          message: 'No more posts available',
-          duration: 2000
-        }).present();
-      }
-      this.toastCtrl.create({
-        message: 'An error occured when getting posts',
-        duration: 2000
-      }).present();
-    });
   }
 
   selectViewMode(mode: string) {

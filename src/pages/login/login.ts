@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
-import { NgForm } from '@angular/forms';
 import { AuthProvider } from '../../providers/auth/auth';
 import { AuthHelperProvider } from '../../providers/auth-helper/auth-helper';
 
@@ -20,8 +19,8 @@ export class LoginPage {
               public toastCtrl: ToastController) {
   }
 
-  onLogin(form: NgForm) {
-    if (!form.valid) {
+  onLogin() {
+    if (!this.loginData.username || !this.loginData.password) {
       let toast = this.toastCtrl.create({
         message: 'Please fill in both fields',
         duration: 3000
@@ -41,7 +40,7 @@ export class LoginPage {
       this.isLogInBtnDisabled = false;
 
       let toast = this.toastCtrl.create({
-        message: 'Login request failed :(',
+        message: 'Wrong username or password',
         duration: 3000
       });
       toast.present();

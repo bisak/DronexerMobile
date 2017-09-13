@@ -14,7 +14,7 @@
 
   <post *ngFor="let post of tagPosts" [post]="post"></post>
 
-  <ion-infinite-scroll [enabled]="isInfiniteScrollEnabled" (ionInfinite)="getPosts($event)">
+  <ion-infinite-scroll [threshold]="'200%'" [enabled]="isInfiniteScrollEnabled" (ionInfinite)="getPosts($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 

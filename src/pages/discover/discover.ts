@@ -36,7 +36,6 @@ export class DiscoverPage {
     }, (error) => {
       infiniteScroll.complete();
       this.isInfiniteScrollEnabled = false;
-      console.log(error);
       if (error.status === 404) {
         return this.toastCtrl.create({
           message: 'No more posts available',
@@ -59,7 +58,7 @@ export class DiscoverPage {
       }
       this.explorePosts = retrievedPictures.data;
     }, (error) => {
-      console.log(error);
+      console.log(JSON.stringify(error));
       if (error.status === 204) {
         return this.toastCtrl.create({
           message: 'No more posts available',
@@ -67,7 +66,7 @@ export class DiscoverPage {
         }).present();
       }
       this.toastCtrl.create({
-        message: 'An error occured when getting posts',
+        message: JSON.stringify(error) || 'An error occured when getting posts',
         duration: 3000
       }).present();
     });

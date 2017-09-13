@@ -3,7 +3,7 @@
     <name>Dronexer</name>
     <description>Aerial drone photography redefined</description>
     <author email="biser.p.atanasov@gmail.com" href="https://dronexer.com/">Dronexer Team</author>
-    <content original-src="index.html" src="http://192.168.0.103:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-intent href="http://*/*" />
@@ -91,7 +91,6 @@
     <allow-navigation href="http://192.168.122.241:8100" />
     <allow-navigation href="http://192.168.0.102:8101" />
     <engine name="android" spec="^6.2.3" />
-    <engine name="browser" spec="^5.0.0" />
     <plugin name="com-sarriaroman-photoviewer" spec="^1.1.10" />
     <plugin name="cordova-plugin-android-permissions" spec="^1.0.0" />
     <plugin name="cordova-plugin-browsertab" spec="^0.2.0" />

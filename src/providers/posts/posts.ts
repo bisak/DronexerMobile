@@ -24,7 +24,6 @@ export class PostsProvider {
       },
       params: { data: JSON.stringify(additionalData) }
     };
-    console.log(JSON.stringify(options));
     const fileTransfer: FileTransferObject = this.transfer.create();
     try {
       await fileTransfer.upload(uri, `${this.apiProvider.url}/pictures/upload`, options);
